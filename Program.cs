@@ -598,9 +598,7 @@ namespace AcmeRenew
                         using (var swri = new StreamWriter(filePath, false, new UTF8Encoding(false)))
                         using (var rsa = CryptoHelper.Rsa.GenerateAlgorithm(certKeys))
                         {
-                            swri.WriteLine(">>>>>> BEGIN Private Key <<<<<<<");
                             ExportHelper.ExportPrivateKey(rsa, swri);
-                            swri.WriteLine(">>>>>> END Private Key <<<<<<<");
                         }
                     }
                 }

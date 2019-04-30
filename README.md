@@ -4,7 +4,7 @@ AcmeRenew is based on ACMECLI example from https://github.com/PKISharp/ACMESharp
 
 Suggested command line is:
 
-    dotnet AcmeRenew.dll --state C:\\state\\my.domain.com --email me@my.domain.com --accept-tos --dns my.domain.com --challenge-type http-01 --process-challenges C:\\site\\well-known\\acme-challenge --test-challenges --answer-challenges --wait-for-test --finalize --export-pfx C:\\certs\\mydomain.pfx
+    dotnet AcmeRenew.dll --state C:\state\my.domain.com --email me@my.domain.com --accept-tos --dns my.domain.com --challenge-type http-01 --process-challenges C:\site\well-known\acme-challenge --test-challenges --answer-challenges --wait-for-test --finalize --export-pfx C:\certs\mydomain.pfx
 
 The `--process-challenges` option is new and not in the ACMECLI docs; it basically
 specifies a directory where the HTTP-01 challenge file will be created (with the
@@ -15,11 +15,11 @@ requested challenge content). If you map that directory to
 by your Web server, then testing of the challenge should succeed almost immediately.
 
 The public certificate (and intermediate certificates, I think) will be saved to
-`C:\\certs\\mydomain.pfx`, while the private key will be saved to
-`C:\\certs\\mydomain.pfx.key`.
+`C:\certs\mydomain.pfx`, while the private key will be saved to
+`C:\certs\mydomain.pfx.key`.
 
 If you encounter errors that result in the authorization or order becoming "invalid",
-you should delete the `C:\\state\\my.domain.com\\50-Orders` directory to remove the
+you should delete the `C:\state\my.domain.com\50-Orders` directory to remove the
 invalid order and run the command again after fixing the cause of the errors.
 
 Below is the original README for ACMECLI.

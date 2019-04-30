@@ -18,6 +18,10 @@ The public certificate (and intermediate certificates, I think) will be saved to
 `C:\\certs\\mydomain.pfx`, while the private key will be saved to
 `C:\\certs\\mydomain.pfx.key`.
 
+If you encounter errors that result in the authorization or order becoming "invalid",
+you should delete the `C:\\state\\my.domain.com\\50-Orders` directory to remove the
+invalid order and run the command again after fixing the cause of the errors.
+
 Below is the original README for ACMECLI.
 
 ---------

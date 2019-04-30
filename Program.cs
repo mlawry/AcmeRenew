@@ -34,7 +34,7 @@ namespace AcmeRenew
             Constants.LetsEncryptStagingName,
             IgnoreCase = true
         )]
-        public string CaName { get; } = Constants.LetsEncryptStagingName; // Constants.LetsEncryptName;
+        public string CaName { get; } = Constants.LetsEncryptName;
 
         [Option(ShortName = "", Description = "Full URL of an ACME CA endpoint; this option overrides " + nameof(CaName))]
         public string CaUrl { get; }

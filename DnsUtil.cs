@@ -6,8 +6,12 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace ACMErenew
+namespace AcmeRenew
 {
+    /// <summary>
+    /// Copied from
+    /// https://github.com/PKISharp/ACMESharpCore/blob/master/src/examples/Examples.Common/DnsUtil.cs
+    /// </summary>
     public static class DnsUtil
     {
         private static LookupClient _Client;

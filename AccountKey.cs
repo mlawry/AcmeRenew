@@ -1,10 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using ACMESharp.Crypto.JOSE;
+using System;
 
-namespace ACMErenew
+namespace AcmeRenew
 {
+    /// <summary>
+    /// Copied from
+    /// https://github.com/PKISharp/ACMESharpCore/blob/master/src/examples/Examples.Common.PKI/AccountKey.cs
+    /// </summary>
     public class AccountKey
     {
         public string KeyType { get; set; }

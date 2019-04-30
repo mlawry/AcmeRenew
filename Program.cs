@@ -16,8 +16,12 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ACMErenew
+namespace AcmeRenew
 {
+    /// <summary>
+    /// Copied from
+    /// https://github.com/PKISharp/ACMESharpCore/blob/master/src/examples/ACMECLI/Program.cs
+    /// </summary>
     [Command]
     class Program
     {

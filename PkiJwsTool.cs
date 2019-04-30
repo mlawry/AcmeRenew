@@ -3,8 +3,12 @@ using System.IO;
 using ACMESharp.Crypto.JOSE;
 using PKISharp.SimplePKI;
 
-namespace ACMErenew
+namespace AcmeRenew
 {
+    /// <summary>
+    /// Copied from
+    /// https://github.com/PKISharp/ACMESharpCore/blob/master/src/examples/Examples.Common.PKI/PkiJwsTool.cs
+    /// </summary>
     public class PkiJwsTool : IJwsTool
     {
         private PkiKeyPair _keys;

@@ -2,8 +2,12 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace ACMErenew
+namespace AcmeRenew
 {
+    /// <summary>
+    /// Copied from
+    /// https://github.com/PKISharp/ACMESharpCore/blob/master/src/examples/ACMECLI/ExportHelper.cs
+    /// </summary>
     public class ExportHelper
     {
         public static void ExportPrivateKey(RSA rsa, TextWriter outputStream)

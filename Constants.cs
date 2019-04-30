@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace ACMErenew
+namespace AcmeRenew
 {
+    /// <summary>
+    /// Copied from
+    /// https://github.com/PKISharp/ACMESharpCore/blob/master/src/examples/ACMECLI/Constants.cs
+    /// </summary>
     public static class Constants
     {
         public const string LetsEncryptName = "LetsEncrypt";

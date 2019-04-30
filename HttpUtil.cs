@@ -3,8 +3,12 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ACMErenew
+namespace AcmeRenew
 {
+    /// <summary>
+    /// Copied from
+    /// https://github.com/PKISharp/ACMESharpCore/blob/master/src/examples/ACMECLI/HttpUtil.cs
+    /// </summary>
     public static class HttpUtil
     {
         private static HttpClient _Client;

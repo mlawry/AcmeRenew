@@ -154,9 +154,13 @@ namespace AcmeRenew
                 {
                     await OnExecutePrivate();
                 }
-                catch (AuthNotValidException)
+                catch (AuthNotValidException authex)
                 {
                     // Retry with refresh on.
+                    Console.WriteLine("Got error message: " + authex.Message);
+                    Console.WriteLine("Retrying with refresh on after 10 seconds");
+                    Thread.Sleep(10000);
+
                     this.RefreshChallenges = true;
                     this.RefreshOrder = true;
                     retry = true;
@@ -166,6 +170,10 @@ namespace AcmeRenew
                     if (acmex.Message.Equals("Unable to update challenge :: authorization must be pending", StringComparison.OrdinalIgnoreCase))
                     {
                         // Retry with refresh on.
+                        Console.WriteLine("Got error message: " + acmex.Message);
+                        Console.WriteLine("Retrying with refresh on after 10 seconds");
+                        Thread.Sleep(10000);
+
                         this.RefreshChallenges = true;
                         this.RefreshOrder = true;
                         retry = true;
@@ -339,8 +347,10 @@ namespace AcmeRenew
             if (order.Payload.Status == Constants.InvalidStatus)
                 throw new Exception("Order is already marked as INVALID");
 
-            if (order.Payload.Status == Constants.PendingStatus)
+            if (order.Payload.Status == Constants.PendingStatus ||
+                order.Payload.Status == Constants.OrderReadyStatus)
             {
+                // Check on the Challenges within this Order. 
                 var authzStatusCounts = new Dictionary<string, int>
                 {
                     [Constants.ValidStatus] = 0,
@@ -683,52 +693,60 @@ namespace AcmeRenew
                 Console.WriteLine($"    Challenge No Longer Pending [{chlng.Status}]");
             }
 
-            if (!string.IsNullOrEmpty(ProcessChallenges))
+            if (chlng.Status == Constants.ValidStatus)
             {
-                // We will attempt to answer the HTTP challenge later on. So right now, since the status is pending,
-                // attempt to create the content that will answer the challenge.
-                string resourcePath = httpCd.HttpResourcePath.Replace(".well-known", "_well-known");
-                string targetFilePath = Path.Combine(ProcessChallenges, Path.GetFileName(resourcePath));
-
-                Console.WriteLine($"    Creating file \"{targetFilePath}\" to satify challenge [{httpCd.ChallengeType}]");
-
-                File.WriteAllText(targetFilePath, httpCd.HttpResourceValue, new UTF8Encoding(false));
+                // Skip ProcessChallenges and TestChallenges if already valid.
+                Console.WriteLine($"    Challenge has been validated (order should be ready but not finalized)");
             }
-
-            if (TestChallenges)
+            else
             {
-                Console.WriteLine("    Testing for handling of HTTP Challenge");
-
-                while (true)
+                if (!string.IsNullOrEmpty(ProcessChallenges))
                 {
-                    string err = null;
-                    var httpValue = await HttpUtil.GetStringAsync(httpCd.HttpResourceUrl);
-                    if (string.IsNullOrEmpty(httpValue))
-                    {
-                        err = "Missing or empty HTTP response for Challenge URL";
-                    }
-                    else if (httpValue != httpCd.HttpResourceValue)
-                    {
-                        err = "HTTP response content does not match expected value for Challenge URL";
-                    }
-                    else
-                    {
-                        Console.WriteLine("        Found response:");
-                        Console.WriteLine($"          {httpValue}");
-                        Console.WriteLine("    SUCCESS!  Found expected HTTP response content for Challenge URL");
-                        // We're done
-                        break;
-                    }
+                    // We will attempt to answer the HTTP challenge later on. So right now, since the status is pending,
+                    // attempt to create the content that will answer the challenge.
+                    string resourcePath = httpCd.HttpResourcePath.Replace(".well-known", "_well-known");
+                    string targetFilePath = Path.Combine(ProcessChallenges, Path.GetFileName(resourcePath));
 
-                    if (DateTime.Now < _testWaitUntil.GetValueOrDefault(DateTime.MinValue))
-                    {
-                        Console.WriteLine("        Last Test:  " + err);
-                        Console.WriteLine("        Waiting...");
-                        Thread.Sleep(30 * 1000);
-                        continue;
-                    }
+                    Console.WriteLine($"    Creating file \"{targetFilePath}\" to satify challenge [{httpCd.ChallengeType}]");
 
-                    throw new Exception(err);
+                    File.WriteAllText(targetFilePath, httpCd.HttpResourceValue, new UTF8Encoding(false));
+                }
+
+                if (TestChallenges)
+                {
+                    Console.WriteLine("    Testing for handling of HTTP Challenge");
+
+                    while (true)
+                    {
+                        string err = null;
+                        var httpValue = await HttpUtil.GetStringAsync(httpCd.HttpResourceUrl);
+                        if (string.IsNullOrEmpty(httpValue))
+                        {
+                            err = "Missing or empty HTTP response for Challenge URL";
+                        }
+                        else if (httpValue != httpCd.HttpResourceValue)
+                        {
+                            err = "HTTP response content does not match expected value for Challenge URL";
+                        }
+                        else
+                        {
+                            Console.WriteLine("        Found response:");
+                            Console.WriteLine($"          {httpValue}");
+                            Console.WriteLine("    SUCCESS!  Found expected HTTP response content for Challenge URL");
+                            // We're done
+                            break;
+                        }
+
+                        if (DateTime.Now < _testWaitUntil.GetValueOrDefault(DateTime.MinValue))
+                        {
+                            Console.WriteLine("        Last Test:  " + err);
+                            Console.WriteLine("        Waiting...");
+                            Thread.Sleep(30 * 1000);
+                            continue;
+                        }
+
+                        throw new Exception(err);
+                    }
                 }
             }
             Console.WriteLine();

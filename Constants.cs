@@ -56,5 +56,10 @@ namespace AcmeRenew
         public const string ValidStatus = "valid";
         public const string InvalidStatus = "invalid";
         public const string PendingStatus = "pending";
+
+        /// <summary>
+        /// New status specific to Order see: https://community.letsencrypt.org/t/acmev2-order-ready-status/62866
+        /// </summary>
+        public const string OrderReadyStatus = "ready";
     }
 }

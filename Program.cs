@@ -158,8 +158,8 @@ namespace AcmeRenew
                 {
                     // Retry with refresh on.
                     Console.WriteLine("Got error message: " + authex.Message);
-                    Console.WriteLine("Retrying with refresh on after 10 seconds");
-                    Thread.Sleep(10000);
+                    Console.WriteLine("Retrying with refresh on after 60 seconds");
+                    Thread.Sleep(60000);
 
                     this.RefreshChallenges = true;
                     this.RefreshOrder = true;
@@ -171,8 +171,8 @@ namespace AcmeRenew
                     {
                         // Retry with refresh on.
                         Console.WriteLine("Got error message: " + acmex.Message);
-                        Console.WriteLine("Retrying with refresh on after 10 seconds");
-                        Thread.Sleep(10000);
+                        Console.WriteLine("Retrying with refresh on after 60 seconds");
+                        Thread.Sleep(60000);
 
                         this.RefreshChallenges = true;
                         this.RefreshOrder = true;

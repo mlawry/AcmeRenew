@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ACMESharpCore.Crypto" Version="2.0.1.105" />
-    <PackageReference Include="DnsClient" Version="1.2.0" />
+    <PackageReference Include="ACMESharpCore.Crypto" Version="2.2.0.148" />
+    <PackageReference Include="DnsClient" Version="1.5.0" />
     <PackageReference Include="McMaster.Extensions.CommandLineUtils" Version="2.3.4" />
-    <PackageReference Include="PKISharp.SimplePKI" Version="1.0.1.105" />
+    <PackageReference Include="PKISharp.SimplePKI" Version="2.0.1.148" />
   </ItemGroup>
 
 </Project>

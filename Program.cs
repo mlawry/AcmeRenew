@@ -249,8 +249,29 @@ namespace AcmeRenew
             if (acmeDir == null || RefreshDir)
             {
                 Console.WriteLine("Refreshing Service Directory");
-                acmeDir = await _acme.GetDirectoryAsync();
-                _acme.Directory = acmeDir;
+                int tries = 3;
+                while (true)
+                {
+                    // A lot of times I've been getting a
+                    //  ACMESharp.Protocol.AcmeProtocolException: Rate limit for '/directory' reached
+                    // exception, so here is a retry loop in case there is rate limit going on.
+                    --tries;
+                    Thread.Sleep(1500);
+                    try
+                    {
+                        acmeDir = await _acme.GetDirectoryAsync();
+                        _acme.Directory = acmeDir;
+                        break;
+                    }
+                    catch (AcmeProtocolException ex)
+                    {
+                        Console.WriteLine("AcmeProtocolException caught: " + ex.ToString());
+                        if (tries <= 0)
+                        {
+                            throw;
+                        }
+                    }
+                }
                 SaveStateFrom(acmeDir, Constants.AcmeDirectoryFile);
                 Console.WriteLine();
             }
